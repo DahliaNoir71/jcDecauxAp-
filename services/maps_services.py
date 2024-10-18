@@ -76,9 +76,20 @@ def add_locations_to_map(map_object: folium.Map, locations: List[Dict[str, any]]
     """
     for location in locations:
         availability = location['dispo_velos'] / location['capacite']
+        popup_html = f"""
+           <b>{location['nom']}</b><br>
+           <ul>
+            <li>Capacité : {location['capacite']}</li>
+            <li>Vélos disponibles : {location['dispo_velos']}</li>
+            <li>Stations libres : {location['dispo_stands']}</li>
+            
+                           
+           </ul>
+           """
+
         folium.Marker(
             location=[location["latitude"], location["longitude"]],
-            popup=location["nom"],
+            popup=popup_html,
             icon=folium.Icon(color=get_score_color(availability))
         ).add_to(map_object)
     return map_object
